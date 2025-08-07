@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+      --color-brand-500: #9D8DF0;
+      --color-brand-600: #D6D6D6;
+      --color-brand-550: #7861EA;
+      --color-brand-700: #C3B5E6;
+    }
+
+@layer utilities {
+  .size-01 {
+    @apply w-14 h-16;
+  }
+  .size-02 {
+    @apply w-20 h-24;
+  }
+  .size-03 {
+    @apply w-28 h-32;
+  }
+  .size-04 {
+    @apply w-36 h-40;
+  }
+  /* Add more if needed */
+}
