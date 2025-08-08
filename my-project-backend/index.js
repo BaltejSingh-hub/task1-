@@ -11,7 +11,7 @@ app.use(express.json())
 app.get("/",(req,res)=>{
     res.send("This is the app")
 })
-
+  
 app.use("/welcome",userRouter)
 
 
