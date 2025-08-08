@@ -26,8 +26,8 @@ const Background_Desk=()=>{
           {/* // make the Sign upcard here */}
            
            {/* <SignInCard/> */}
-          {}
-          <SignUpCard/>
+          {(selectPage)?<SignUpCard selectPage={selectPage} setSelectPage={setSelectPage}/>:<SignInCard selectPage={selectPage} setSelectPage={setSelectPage}/>}
+          {/* <SignUpCard/> */}
 
           {/* make the sign up card till here */}
 

@@ -14,6 +14,8 @@ import SignIn from "./pages/SignIn";
 import Dashboard, { products } from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Product_details from "./pages/Product_details";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -40,6 +42,7 @@ function App() {
   
     return (
     <>
+      <Toaster />
       <BrowserRouter>
               <Routes>
                    <Route path="/" element={<Dashboard />} />

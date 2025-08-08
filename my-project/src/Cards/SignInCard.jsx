@@ -9,14 +9,17 @@ import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import toast from 'react-hot-toast';
+import { useNavigate } from "react-router";
 
-const SignInCard=({value, onValueChange })=>{
-
+const SignInCard=({selectPage,setSelectPage })=>{
+    const [login,setLogin]=useState(false)
+    const navigate=useNavigate()
     const handleInputChange=()=>{
-        if(value){
-            onValueChange(false)
+        if(selectPage){
+            setSelectPage(false)
         }else{
-            onValueChange(true)
+            setSelectPage(true)
         }
     }
 
@@ -31,14 +34,33 @@ const SignInCard=({value, onValueChange })=>{
     },
     validationSchema,
     onSubmit: async (values) => {
-      const response=await axios.post("http://localhost:3001/welcome/signin", {
-          email:values.email,
-          password:values.password,
-        })
-        const token=response.data.token
-        console.log(token)
-        Cookies.set("token",token)
-         console.log('Token stored in cookie');
+
+      try{
+            const response=await axios.post("http://localhost:3001/welcome/signin", {
+            email:values.email,
+            password:values.password,
+            }) 
+
+            if(response.status===200){
+              const token=response.data.token
+              console.log(response)
+              Cookies.set("token",token)
+              console.log('Token stored in cookie');
+              toast(response.data.msg)
+              }
+
+            setTimeout(()=>{
+                  navigate("/")
+            },1000)
+          }catch(err){
+              console.log("control has reached the catch")
+              console.log(err.response.data.msg)
+              toast(err.response.data.msg)
+            }
+
+        
+        
+        
     },
   });
 

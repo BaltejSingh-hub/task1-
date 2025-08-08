@@ -1,23 +1,27 @@
 const bcrypt = require('bcrypt');
-require("dotenv").config()
 const secretKey=process.env.SECRET_KEY_JWT
 const express=require("express");
 const { UsersModel } = require('../model/schema');
-const { GenerateToke } = require('../utils/utiluser');
+const { GenerateToke, ConvertEmailToLowercase } = require('../utils/utiluser');
 
 exports.SignUp =async (req,res)=>{
     
     const data=req.body
     const username=data.username
     const email=data.email
+
+    const actual_email=ConvertEmailToLowercase(email)
+
     const password=data.password
+
+
 
     console.log(data)
 
-    const result=await UsersModel.findOne({email:email})
+    const result=await UsersModel.findOne({email:actual_email})
 
     if(result){
-        res.json({msg:"User already exists"})
+        res.status(404).json({msg:"User already exists"})
     }else{
         
         async function hashpassword(plainPassword){
@@ -33,13 +37,17 @@ exports.SignUp =async (req,res)=>{
         })
 
         
-        await UsersModel.create({
+        const User=await UsersModel.create({
         username:username,
-        email:email,
+        email:actual_email,
         password:hashedPassword
         })
 
-        res.json({msg:"New user is added"})
+        
+        const token=await GenerateToke({userId:User._id},secretKey)
+        res.status(200).json({msg:"New user is added",
+            token:token
+        })
     }
 }
 
@@ -49,6 +57,9 @@ exports.SignIn=async(req,res)=>{
         const email=data.email
         const password=data.password
         
+        const actual_email=ConvertEmailToLowercase(email)
+
+
         async function verifyPassword(enteredpassword,storedHash){
         const isMatch= await bcrypt.compare(enteredpassword,storedHash)
         return isMatch
@@ -61,7 +72,7 @@ exports.SignIn=async(req,res)=>{
         //     return isMatch
         // }
 
-        const result=await UsersModel.findOne({email:email})
+        const result=await UsersModel.findOne({email:actual_email})
         if(result){
                 const verifiedPassword= await verifyPassword(password,result.password).then(hashed=>{
                 console.log(hashed)
@@ -70,14 +81,14 @@ exports.SignIn=async(req,res)=>{
                 if(verifiedPassword){
                     const token=await GenerateToke({userId:result._id},secretKey)
                     
-                    res.json({msg:"Welcome, you are logged in",
+                    res.status(200).json({msg:"Welcome, you are logged in",
                             token:token
                     })
                 }else{
-                    res.json({msg:"Incorrect password, try again"})
+                    res.status(404).json({msg:"Incorrect password, try again"})
                 }
         }else{
-            res.json({msg:"email is not registered"})
+            res.status(404).json({msg:"email is not registered"})
         }
 
         // res.json({msg:"New user is here"})

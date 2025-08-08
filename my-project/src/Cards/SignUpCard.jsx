@@ -9,9 +9,13 @@ import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
 import SignInCard from "./SignInCard";
 import axios from "axios";
+import toast from "react-hot-toast";
+import Cookies from 'js-cookie';
+import { useNavigate } from "react-router-dom";
+
 
 const SignUpCard = ({ selectPage,setSelectPage}) => {
-    
+    const navigate=useNavigate()
   const handleChange=()=>{
       if(selectPage){
         setSelectPage(false)
@@ -42,14 +46,30 @@ const SignUpCard = ({ selectPage,setSelectPage}) => {
       password: "",
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       
-        "Your form is submitted, for the values",
-        axios.post("http://localhost:3001/welcome/signup", {
-          email:values.email,
-          username:values.username,
-          password:values.password,
+      try{
+            const response= await axios.post("http://localhost:3001/welcome/signup", {
+            email:values.email,
+            username:values.username,
+            password:values.password,
         })
+        const token=response.data.token 
+        console.log("Down here should be the token")
+        console.log(token)
+        console.log("Before token should be stored in cookie")
+        Cookies.set("token",token)
+        console.log('After token should be stored in cookie');
+        toast(response.data.msg)
+
+        setTimeout(()=>{
+            navigate("/")
+        },1000)
+      }catch(err){
+
+      }
+       
+
       ;
     },
   });
@@ -66,7 +86,6 @@ const SignUpCard = ({ selectPage,setSelectPage}) => {
     }
   };
 
-  console.log(formik);
 
   return (
     <div

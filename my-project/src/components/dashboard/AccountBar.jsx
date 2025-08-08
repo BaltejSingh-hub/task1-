@@ -9,6 +9,9 @@ const AccountBar=()=>{
     const go_to_dashboard=()=>{
             navigate('/')
     }
+    const logout=()=>{
+        navigate('/signup')
+    }
     return(
         <>
             <div className="px-5 bg-brand-700 w-screen h-15 flex items-center justify-between">
@@ -36,9 +39,10 @@ const AccountBar=()=>{
 </form>
 
                 </div>
-                <div className="mr-5 w-15 h-11 flex items-center">
+                <div className=" mr-8 w-15 h-11 flex items-center">
                     <img onClick={go_to_profile} className="h-7 w-auto hover:cursor-pointer" src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="" />
                     <img className="pl-2 h-7 w-auto hover:cursor-pointer" src="https://cdn-icons-png.flaticon.com/512/8310/8310386.png" alt="" />
+                    <img className="h-6 w-auto pl-2 hover:cursor-pointer"src="https://icons.veryicon.com/png/o/internet--web/website-icons/logout-8.png" alt="" onClick={logout} />
                 </div>
             </div>
         </>
