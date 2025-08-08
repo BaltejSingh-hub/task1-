@@ -43,6 +43,8 @@ function App() {
       <BrowserRouter>
               <Routes>
                    <Route path="/" element={<Dashboard />} />
+                   
+                   <Route path="/signup" element={<Background_Desk />} />
                    <Route path="/profile" element={<Profile />} />
                    <Route path="/product_details" element={<Product_details />} />
                    <></>

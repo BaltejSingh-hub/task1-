@@ -7,6 +7,8 @@ import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import Cookies from 'js-cookie';
 
 const SignInCard=({value, onValueChange })=>{
 
@@ -25,14 +27,23 @@ const SignInCard=({value, onValueChange })=>{
   const formik = useFormik({
     initialValues: {
       email: "",
-      username: "",
       password: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      alert("Your form is submitted, for the values", console.log(values));
+    onSubmit: async (values) => {
+      const response=await axios.post("http://localhost:3001/welcome/signin", {
+          email:values.email,
+          password:values.password,
+        })
+        const token=response.data.token
+        console.log(token)
+        Cookies.set("token",token)
+         console.log('Token stored in cookie');
     },
   });
+
+
+
 
   const [currentPage,setCurrentPage]=useState(true)
 

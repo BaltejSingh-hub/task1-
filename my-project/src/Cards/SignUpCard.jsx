@@ -8,15 +8,17 @@ import { FaEye } from "react-icons/fa";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
 import SignInCard from "./SignInCard";
+import axios from "axios";
 
-const SignUpCard = ({ value, onValueChange }) => {
-  const handleInputChange = () => {
-    if (value) {
-      onValueChange(false);
-    } else {
-      onValueChange(true);
+const SignUpCard = ({ selectPage,setSelectPage}) => {
+    
+  const handleChange=()=>{
+      if(selectPage){
+        setSelectPage(false)
+      }else{
+        setSelectPage(true)
+      }
     }
-  };
 
   const validationSchema = Yup.object({
     email: Yup.string().email().required(),
@@ -41,7 +43,14 @@ const SignUpCard = ({ value, onValueChange }) => {
     },
     validationSchema,
     onSubmit: (values) => {
-      alert("Your form is submitted, for the values", console.log(values));
+      
+        "Your form is submitted, for the values",
+        axios.post("http://localhost:3001/welcome/signup", {
+          email:values.email,
+          username:values.username,
+          password:values.password,
+        })
+      ;
     },
   });
 
@@ -122,7 +131,7 @@ const SignUpCard = ({ value, onValueChange }) => {
           <a
             className="text-xs underline text-blue-500"
             href="#"
-            onClick={handleInputChange}
+            onClick={handleChange}
           >
             Sign in
           </a>
