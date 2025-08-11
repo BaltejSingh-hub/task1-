@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react";
 import AccountBar from "../components/dashboard/AccountBar";
 import NavBar from "../components/dashboard/NavBar";
 import ProductCard from "../components/dashboard/ProductCard";
+import PageIndex from "../components/PageIndex";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import FilterDropDown from "../components/FilterDropDown";
+import Cookies from 'js-cookie';
 
 export const products = [
   {
@@ -61,23 +67,90 @@ export const products = [
   },
 ];
 
-const Dashboard = () => {
+const Dashboard = ({statusCode,setStatusCode}) => {
+  const [products_1, setProducts_1] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 5;
+  const [ProductList,setProductList]=useState([])
+  const navigate=useNavigate("")
+  const [search,setSearch]=useState("")
+  const [increasing_price,setIncreasing_price]=useState(1)
+  const token=Cookies.get("token")
+ 
+
+
+  function onPageChange(){
+    setCurrentPage(currentPage)
+    console.log("page change triggered",currentPage)
+
+    
+  }
+
+  function PrevPage(){
+    setCurrentPage(currentPage-1)
+  }
+
+  function NextPage(){
+    setCurrentPage(currentPage-1)
+  }
+
+  useEffect( ()=>{
+    
+    async function fetchData(){
+
+        try{
+
+          const result= await axios({
+            method:"GET",
+            url:`http://localhost:3001/welcome/products?page=${currentPage}&search=${search}&order=${increasing_price}`,
+            headers:{Authorization:`Bearer ${token}`}
+          }).then ((e)=>{
+            setProductList(e.data.ProductList)
+            setStatusCode(e.status)
+          })
+
+          
+
+        }catch(err){
+            console.log("THIS IS THE CODE INSIDE TRY CATCH", setStatusCode(err.response.status))
+        }
+          
+    }
+    fetchData()
+    
+  },[currentPage,search,increasing_price,statusCode])
+
   return (
-    <>
-      <AccountBar />
+    <div className="pb-15">
+      <AccountBar search={search} setSearch={setSearch}/>
       <NavBar />
-      <div className="flex grid grid-cols-4 py-5 px-2 gap-1 mt-5">
-        {products.map((product) => (
+      <div className="flex justify-end">
+            <FilterDropDown increasing_price={increasing_price} setIncreasing_price={setIncreasing_price}/>
+      </div>
+      
+      <div className="flex grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 py-5 px-2 gap-1 mt-5">
+        {ProductList.map((product) => (
           <ProductCard
-            index={product.id}
-            img={product.image}
-            product={product.name}
+            index={product._id}
+            img={product.img[0]}
+            product={product.title}
             price={product.price}
-            desc={product.description}
+            desc={product.desc}
+            // showProductDetails={showProductDetails()}
           />
         ))}
+        
       </div>
-    </>
+      
+      <PageIndex className=""
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+        onPageChange={onPageChange}
+        PrevPage={PrevPage}
+        NextPage={NextPage}
+      />
+    </div>
   );
 };
 

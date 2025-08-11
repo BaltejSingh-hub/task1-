@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 
-const AccountBar=()=>{
+const AccountBar=({search,setSearch})=>{
     const navigate = useNavigate();
 
     const go_to_profile=()=>{
@@ -10,8 +11,10 @@ const AccountBar=()=>{
             navigate('/')
     }
     const logout=()=>{
+        Cookies.remove("token")
         navigate('/signup')
     }
+
     return(
         <>
             <div className="px-5 bg-brand-700 w-screen h-15 flex items-center justify-between">
@@ -28,7 +31,7 @@ const AccountBar=()=>{
                 <path stroke="currentColor" stroke-linecap="round" strokeLinejoin="round" stroke-width="2" d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2"/>
             </svg>
         </div>
-        <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search branch name..." required />
+        <input type="text" id="simple-search" onChange={(e)=>{setSearch(e.target.value)}} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search branch name..." required />
     </div>
     <button type="submit" class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -39,7 +42,7 @@ const AccountBar=()=>{
 </form>
 
                 </div>
-                <div className=" mr-8 w-15 h-11 flex items-center">
+                <div className=" mr-8 w-15 h-11 flex items-center mx-5">
                     <img onClick={go_to_profile} className="h-7 w-auto hover:cursor-pointer" src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="" />
                     <img className="pl-2 h-7 w-auto hover:cursor-pointer" src="https://cdn-icons-png.flaticon.com/512/8310/8310386.png" alt="" />
                     <img className="h-6 w-auto pl-2 hover:cursor-pointer"src="https://icons.veryicon.com/png/o/internet--web/website-icons/logout-8.png" alt="" onClick={logout} />

@@ -15,29 +15,28 @@ import Dashboard, { products } from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Product_details from "./pages/Product_details";
 import toast, { Toaster } from 'react-hot-toast';
+import ProtectedRoute from "./utils/ProtectedRoute";
+import { Navigate, Outlet } from "react-router-dom";
 
 
 function App() {
   const [count, setCount] = useState(0);
-    const [windowDimensions, setWindowDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+  const [statusCode,setStatusCode]=useState(0)
 
 
 
-  useEffect(()=>{
-      const handleResize=()=>{
-        setWindowDimensions({
-          width: window.innerWidth,
-        height: window.innerHeight,
-        })
-      }
-      window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  },[])
-    const screen_width=windowDimensions.width
-    console.log(screen_width)
+  // for getting the size of the screen
+  // useEffect(()=>{
+  //     const handleResize=()=>{
+  //       setWindowDimensions({
+  //         width: window.innerWidth,
+  //       height: window.innerHeight,
+  //       })
+  //     }
+  //     window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // },[])
+
     
   
     return (
@@ -45,13 +44,23 @@ function App() {
       <Toaster />
       <BrowserRouter>
               <Routes>
-                   <Route path="/" element={<Dashboard />} />
-                   
+                   {/* Public Route  */}
                    <Route path="/signup" element={<Background_Desk />} />
-                   <Route path="/profile" element={<Profile />} />
-                   <Route path="/product_details" element={<Product_details />} />
+
+                    {/* Protected Routes  */}
+
+                    <Route element={<ProtectedRoute statusCode= {statusCode} setStatusCode={setStatusCode} />}>
+
+                            <Route path="/" element={<Dashboard statusCode= {statusCode} setStatusCode={setStatusCode} />} />
+                            <Route path="/profile" element={<Profile />} />
+                            <Route path="/product_details/:id" element={<Product_details />} />
+                            {/* <Route path="/product_details" element={<Product_details />} /> */}
+
+                    </Route>
+                   
+                   <Route path="*" element={<Navigate to="/" />}/>
                    <></>
-                  {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+                  
             </Routes>
       </BrowserRouter>      
     </>

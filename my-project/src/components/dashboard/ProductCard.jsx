@@ -1,4 +1,9 @@
-const ProductCard=({index,img,product,price,desc})=>{
+import { useNavigate } from "react-router-dom"
+
+const ProductCard=({index,img,product,price,desc, showProductDetails})=>{
+
+  const navigate=useNavigate()
+
     return(
         <>  
 <div
@@ -8,17 +13,26 @@ const ProductCard=({index,img,product,price,desc})=>{
         <img src={img} alt={product} className="object-cover w-full h-full" />
   </div>
   <div className="flex flex-col justify-between h-full">
-    <h2 className="text-lg font-semibold text-gray-800 mb-1">{product}</h2>
+    <h2 className="text-lg font-semibold text-gray-800 mb-1 text-center">{product}</h2>
     <p className="text-blue-600 font-medium mb-3 text-center">${price}</p>
-    <button className="bg-blue-600 text-white px-4 py-1 rounded-md text-sm hover:bg-blue-700 transition">
+    <div className="flex justify-center">
+        <button onClick={()=>{navigate(`/product_details/${index}`)}} className="bg-blue-600 text-white px-4 py-1 w-50 rounded-md text-sm hover:bg-blue-700 transition">
       View
-    </button>
+      </button>
+    </div>
+    
   </div>
 </div>
 
         </>
     )
 }
+
+
+//  code for the view from the beginning
+//  <button className="bg-blue-600 text-white px-4 py-1 rounded-md text-sm hover:bg-blue-700 transition">
+//       View
+//     </button>
 
 export default ProductCard
 

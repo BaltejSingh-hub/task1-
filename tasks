@@ -1,0 +1,26 @@
+1. Link the backend routes 
+
+1.1 Add pagination feature (Done)
+
+1.2 Products sould be shown from DB (Done)
+
+1.3 Product which is clicked on should open (Done)
+
+1.4 Image which is selected should be highlighted (Done)
+
+1.5 Apply search at the top (Done)
+
+1.6 Apply sorting according to price  (Done)
+
+header:{Authorization:`Bearer ${token}`}
+
+import Cookies from 'js-cookie';
+
+const token=Cookies.get("Authorization")
+
+
+Add multer config
+in the edit profile, get the user data so that it can edited using 
+the Save changes 
+also add a route to delete the account both frontend and backend
+

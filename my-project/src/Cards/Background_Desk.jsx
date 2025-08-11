@@ -4,11 +4,9 @@ import SignUpCard from "./SignUpCard"
 
 const Background_Desk=()=>{
     const [selectPage,setSelectPage]=useState(false)
-    
-
-    
+        
     return(
-        <div className="flex justify-center items-center">
+        <div className="md:h-screen md:w-screen flex justify-center items-center">
                  <div className="flex justify-center w-250 h-150 bg-brand-500 rounded-3xl shadow-2xl">
           <div className="flex">
               <span className="pt-45"><img src="/camera.png" className="absolute bottom-20px"/></span>

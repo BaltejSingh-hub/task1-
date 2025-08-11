@@ -1,5 +1,10 @@
 @import "tailwindcss";
+body{
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 
+}
 @theme {
       --color-brand-500: #9D8DF0;
       --color-brand-600: #D6D6D6;

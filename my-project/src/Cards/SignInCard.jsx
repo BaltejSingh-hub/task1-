@@ -8,22 +8,22 @@ import { FaEye } from "react-icons/fa";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import Cookies from 'js-cookie';
-import toast from 'react-hot-toast';
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 
-const SignInCard=({selectPage,setSelectPage })=>{
-    const [login,setLogin]=useState(false)
-    const navigate=useNavigate()
-    const handleInputChange=()=>{
-        if(selectPage){
-            setSelectPage(false)
-        }else{
-            setSelectPage(true)
-        }
+const SignInCard = ({ selectPage, setSelectPage }) => {
+  const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
+  const handleInputChange = () => {
+    if (selectPage) {
+      setSelectPage(false);
+    } else {
+      setSelectPage(true);
     }
+  };
 
-    const validationSchema = Yup.object({
+  const validationSchema = Yup.object({
     email: Yup.string().email().required(),
     password: Yup.string().required(),
   });
@@ -35,48 +35,42 @@ const SignInCard=({selectPage,setSelectPage })=>{
     validationSchema,
     onSubmit: async (values) => {
 
-      try{
-            const response=await axios.post("http://localhost:3001/welcome/signin", {
-            email:values.email,
-            password:values.password,
-            }) 
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/welcome/signin",
+          {
+            email: values.email,
+            password: values.password,
+          }
+        );
 
-            if(response.status===200){
-              const token=response.data.token
-              console.log(response)
-              Cookies.set("token",token)
-              console.log('Token stored in cookie');
-              toast(response.data.msg)
-              }
+        if (response.status === 200) {
+          const token = response.data.token;
+          console.log(response);
+          Cookies.set("token", `${token}`);
+          toast(response.data.msg);
+        }
 
-            setTimeout(()=>{
-                  navigate("/")
-            },1000)
-          }catch(err){
-              console.log("control has reached the catch")
-              console.log(err.response.data.msg)
-              toast(err.response.data.msg)
-            }
-
-        
-        
-        
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } catch (err) {
+        console.log("control has reached the catch");
+        console.log(err.response.data.msg);
+        toast(err.response.data.msg);
+      }
     },
   });
 
+  const [currentPage, setCurrentPage] = useState(true);
 
-
-
-  const [currentPage,setCurrentPage]=useState(true)
-
-  const handlePage=()=>{
-    if(currentPage==true){
-        setCurrentPage(false)
-    }else{
-        setCurrentPage(true)
+  const handlePage = () => {
+    if (currentPage == true) {
+      setCurrentPage(false);
+    } else {
+      setCurrentPage(true);
     }
-        
-  }
+  };
 
   const [icon, setIcon] = useState(false);
   const [type, setType] = useState("password");
@@ -111,9 +105,7 @@ const SignInCard=({selectPage,setSelectPage })=>{
     >
       <div className="flex flex-col md-10">
         <p className="font-sans font-bold text-5xl">Sign In</p>
-        <h6 className="font-serif text-stone-400 mt-1">
-          Welcome Back
-        </h6>
+        <h6 className="font-serif text-stone-400 mt-1">Welcome Back</h6>
 
         <form onSubmit={formik.handleSubmit}>
           <div className="pt-3 sm:pt-5">
@@ -139,10 +131,12 @@ const SignInCard=({selectPage,setSelectPage })=>{
           <SignUpButton submit={"submit"} name="Sign in" />
         </form>
         <div className="flex mt-2 justify-center">
-          <p className="text-stone-400 text-xs text-sm mr-2">
-           Create account
-          </p>
-          <a className="text-xs underline text-blue-500" href="#" onClick={handleInputChange}>
+          <p className="text-stone-400 text-xs text-sm mr-2">Create account</p>
+          <a
+            className="text-xs underline text-blue-500"
+            href="#"
+            onClick={handleInputChange}
+          >
             Sign up
           </a>
         </div>
@@ -154,8 +148,7 @@ const SignInCard=({selectPage,setSelectPage })=>{
         </div>
       </div>
     </div>
-    )
-    
-}
+  );
+};
 
-export default SignInCard
+export default SignInCard;

@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const secretKey=process.env.SECRET_KEY_JWT
-const express=require("express");
 const { UsersModel } = require('../model/schema');
 const { GenerateToke, ConvertEmailToLowercase } = require('../utils/utiluser');
 

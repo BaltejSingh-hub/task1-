@@ -4,11 +4,13 @@ import NavBar from "../components/dashboard/NavBar";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FaEdit } from "react-icons/fa";
+import DeleteAccountModel from "../components/DeleteAccountModel";
 
 const Profile = () => {
   const [showProfile, setShowProfile] = useState(false);
-
+  const [open, setOpen] = useState(false)
   const handleProfile = () => {
+
     if (showProfile) {
       setShowProfile(false);
     } else {
@@ -16,8 +18,19 @@ const Profile = () => {
     }
   };
 
+  const [show,setShow]=useState(false)
+
+  const handleModel=()=>{
+    if(show){
+      setShow(false)
+    }else{
+      setShow(true)
+    }
+  }
+
   return (
     <>
+      {show&&<DeleteAccountModel/>}
       <div className="w-screen bg-brand-700 h-50">
         <AccountBar className="" />
         <NavBar />
@@ -44,7 +57,7 @@ const Profile = () => {
 
             <div className="flex justify-center">
               {showProfile ? null : (
-                <>
+                <div className="flex gap-2">
                   <button
                     type="button"
                     onClick={handleProfile}
@@ -53,7 +66,16 @@ const Profile = () => {
                   >
                     Edit Profile
                   </button>
-                </>
+
+                  <button
+                    type="button"
+                    onClick={handleModel}
+                    style={{ boxShadow: "inset 0 0 17px red" }}
+                    className="bg-red-500 mt-7 w-80 h-13 font-bold rounded-xl text-white text-lg hover:cursor-pointer hover:bg-red-700 text-bold">
+                    Delete Account
+                  </button>
+
+                </div>
               )}
             </div>
 
@@ -73,7 +95,7 @@ const Profile = () => {
       <div className="flex justify-center">
         <div className="h-40 w-40 rounded-full absolute top-20 z-10"></div>
         <img
-          className="h-40 w-40 rounded-full absolute top-30 z-20"
+          className="h-40 w-40 rounded-full absolute top-30 z-1"
           src="https://elireview.com/wp-content/uploads/2016/12/reed-profile-square.jpg"
           alt=""
         />

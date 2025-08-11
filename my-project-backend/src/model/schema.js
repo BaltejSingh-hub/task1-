@@ -1,4 +1,5 @@
 const mongoose=require("mongoose")
+const { ProductSchema } = require("./ProductSchema")
 require("dotenv").config()
 const mongodb_url=process.env.MONGODB_KEY
 
@@ -27,6 +28,9 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-const UsersModel = mongoose.model('Users', UserSchema);
 
-module.exports={UsersModel}
+
+const UsersModel = mongoose.model('Users', UserSchema);
+const ProductsModel=mongoose.model("Products",ProductSchema)
+
+module.exports={UsersModel, ProductsModel}

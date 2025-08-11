@@ -50,6 +50,8 @@ const SignUpCard = ({ selectPage,setSelectPage}) => {
       
       try{
             const response= await axios.post("http://localhost:3001/welcome/signup", {
+              headers:{Authorization:`${token}`}
+            },{
             email:values.email,
             username:values.username,
             password:values.password,
@@ -58,7 +60,7 @@ const SignUpCard = ({ selectPage,setSelectPage}) => {
         console.log("Down here should be the token")
         console.log(token)
         console.log("Before token should be stored in cookie")
-        Cookies.set("token",token)
+        Cookies.set("token",`${token}`)
         console.log('After token should be stored in cookie');
         toast(response.data.msg)
 
@@ -66,7 +68,7 @@ const SignUpCard = ({ selectPage,setSelectPage}) => {
             navigate("/")
         },1000)
       }catch(err){
-
+          
       }
        
 
