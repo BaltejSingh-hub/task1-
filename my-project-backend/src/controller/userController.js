@@ -93,3 +93,16 @@ exports.SignIn=async(req,res)=>{
         // res.json({msg:"New user is here"})
 
 }
+
+// http://localhost:3001/welcome/deleteProfile
+exports.DeleteProfile=async(req,res)=>{
+    const {userId}=req.user
+
+    // Unable this route when you really want to delete the user
+    // const result= await UsersModel.findByIdAndDelete(userId)
+
+    res.status(204).json({msg:"Accounted deleted successfully"})
+    
+
+
+}

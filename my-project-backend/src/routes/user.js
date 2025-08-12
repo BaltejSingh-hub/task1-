@@ -24,10 +24,15 @@ userRouter.post("/signin",controller.SignIn)
 userRouter.get("/products",UserMiddleware ,Products)
 
 // localhost:3001/welcome/productdetails
-userRouter.get("/productdetails",Product_details)
+userRouter.get("/productdetails",UserMiddleware,Product_details)
+
+// userRouter.delete("/deleteProfile",)
 
 // localhost:3001/welcome/productdetails
-// userRouter.get("/productdetails",Products.ProductDetails)
+userRouter.get("/productdetails",Products)
+
+// localhost:3001/welcome/deleteProfile
+userRouter.delete("/deleteProfile",UserMiddleware,controller.DeleteProfile)
 
 module.exports={
     userRouter

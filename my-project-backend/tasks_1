@@ -1,0 +1,212 @@
+import React, { useState, useRef, useEffect } from "react";
+import { ChevronDownIcon } from "lucide-react";
+
+interface Option {
+  value: string;
+  label: string;
+  hidden?: boolean;
+  disabled?: boolean;
+}
+
+interface MultiSelectProps {
+  label?: string;
+  options: Option[];
+  value: string[];
+  onChange: (selected: string[]) => void;
+  error?: string;
+  placeholder?: string;
+}
+
+const SelectMultipleRole: React.FC<MultiSelectProps> = ({
+  label,
+  options,
+  value,
+  onChange,
+  error,
+  placeholder = "Select options"
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSelect = (optionValue: string) => {
+    if (value.includes(optionValue)) {
+      onChange(value.filter((v) => v !== optionValue));
+    } else {
+      onChange([...value, optionValue]);
+    }
+  };
+
+  return (
+    <div className="space-y-1.5" ref={dropdownRef}>
+      {label && (
+        <label className="block text-xs font-black text-gray-700 tracking-wide uppercase">
+          {label}
+        </label>
+      )}
+      <div
+        className={`relative border ${
+          error ? "border-red-400" : "border-primaryBorder"
+        } rounded-2xl`}
+      >
+        {/* Dropdown Trigger */}
+        <button
+          type="button"
+          className="w-full p-3 flex justify-between items-center text-sm font-semibold text-black focus:outline-none"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          <span className="truncate">
+            {value.length > 0
+              ? options
+                  .filter((opt) => value.includes(opt.value))
+                  .map((opt) => opt.label)
+                  .join(", ")
+              : placeholder}
+          </span>
+          <ChevronDownIcon
+            className={`h-5 w-5 text-gray-500 transition-transform ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+
+        {/* Dropdown List */}
+        {isOpen && (
+          <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-auto z-10">
+            {options.map((opt) => (
+              <label
+                key={opt.value}
+                className={`flex items-center p-2 cursor-pointer hover:bg-gray-100 ${
+                  opt.disabled ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  disabled={opt.disabled}
+                  checked={value.includes(opt.value)}
+                  onChange={() => handleSelect(opt.value)}
+                  className="mr-2"
+                />
+                {opt.label}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {!!error && <small className="text-red-500 text-xs">{error}</small>}
+    </div>
+  );
+};
+
+export default SelectMultipleRole;
+
+
+
+============================================================================
+
+<SelectMultipleRole
+                            value={multipleRoleFilter}
+                            label="Role"
+                            onChange={(selected) => setmultipleRoleFilter(selected ?? [])}
+                            options={[{ value: '', label: 'Select Role',disabled:true }, ...RoleList]}
+                        />
+
+============================================================================
+
+React hook forms
+
+useForms ?
+
+zod , how to add just 10 numbers and nothing else
+
+read TypeScript 
+
+============================================================================
+
+type Role = {
+ label:string;
+ value:any;
+};
+
+
+============================================================================
+
+        const getMyRoles = async () => {
+                try {
+        
+        
+                    const response: GetRolePermissionResponse = await apiClient(
+                        '/getRolePermission',
+                        {
+                            method: "GET",
+                            authRequired: true,
+                        }
+                    )
+                    if (response) {
+                        console.log('response', response)
+                    const myrolelist:any=response.data?.map((item)=>{
+                        return {
+                            label:item.role_name,
+                            value:item.role_name,
+                            
+                            
+                        }
+                    })
+                    console.log(response,"this is the value for the response and you have to withdraw the data from here")
+                        setroleList(myrolelist)
+                    }
+                } catch (error) {
+                    console.log('error', error)
+                }
+            }
+        
+        
+            useEffect(() => {
+                getMyRoles()
+        
+            }, [])
+
+
+==========================================================================
+
+export async function apiClient<T>(
+  endpoint: string,
+  options: ApiClientOptions = {}
+): Promise<T> {
+  const {
+    method = 'GET',
+    queryParams,
+    body,
+    isJson = true,
+    authRequired = false,
+    headers = {}
+  } = options;
+
+=========================================================================
+
+type ApiClientOptions = {
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  queryParams?: Record<string, string | number | boolean>;
+  body?: any; // object for JSON or FormData for multipart
+  isJson?: boolean; // defaults to true; if false, treat body as FormData
+  authRequired?: boolean; // if true, attach auth headers or cookies
+  headers?: HeadersInit; // additional headers
+  baseUrl?: string; // optional base url (default '')
+};
+
+==========================================================================
+
+
+
+
