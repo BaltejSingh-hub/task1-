@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
   res.send("This is the app");
 });
 
-app.use("/welcome", userRouter);
+app.use("/welcome",express.static("./src/uploads"), userRouter);
 
 
 app.listen(3001, () => {

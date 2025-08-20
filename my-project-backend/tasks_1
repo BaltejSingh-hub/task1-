@@ -907,4 +907,199 @@ const [patientDetails, setPatientDetails] = useState<{ [key: string]: any }>({})
 ==================================================================================================
 
 
+I want to use the 
+
+interface patient_demographics{
+    first_name:string,
+    last_name:string,
+    nhs_number:string
+}
+
+patient_demographics as a variable , how do I declare it ?
+
+answer:
+const patientInfo: patient_demographics = {
+    first_name: "John",
+    last_name: "Doe",
+    nhs_number: "1234567890"
+};
+
+==================================================================================================
+
+for this code patientDetails?.patient_demographics?.nhs_number
+the number is displayed with no space like this "8787778978" and I want spacing between them like this "485 777 1234", how to do this ?
+
+
+=================================================================================================
+
+now I want to give this as the input "{patientDetails?.patient_demographics?.dob}" for the function "function getAgeFromISO(dateString: string): number {
+  const birthDate = new Date(dateString);
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+
+  // If birthday hasn't occurred yet this year, subtract 1
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+
+  return age;
+}
+", how do i provide the input to the function ?
+
+
+==================================================================================================
+
+how to get the just the date, month, year in this format "22/08/1996" from string that is "2025-08-22T00:00:00.000Z" ?
+
+===================================================================================================
+
+tell me what this issue is "Console Error
+
+
+Received NaN for the `children` attribute. If this is expected, cast the value to a string.
+
+Call Stack
+21
+
+createConsoleError
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_client_8f19e6fb._.js (882:71)
+handleConsoleError
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_client_8f19e6fb._.js (1058:54)
+console.error
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_client_8f19e6fb._.js (1223:57)
+validateProperty
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (4223:71)
+warnUnknownProperties
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (4335:26)
+validatePropertiesInDevelopment
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (11269:66)
+setInitialProperties
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (11540:9)
+completeWork
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (8421:35)
+runWithFiberInDEV
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (3073:74)
+completeUnitOfWork
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (10308:23)
+performUnitOfWork
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (10245:28)
+workLoopConcurrentByScheduler
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (10239:58)
+renderRootConcurrent
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (10221:71)
+performWorkOnRoot
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (9853:176)
+performWorkOnRootViaSchedulerTask
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (10826:9)
+MessagePort.performWorkUntilDeadline
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/node_modules_next_dist_compiled_2ce9398a._.js (1982:64)
+p
+<anonymous> (0:0)
+PatientOverview
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/src_components_patients_a24827ab._.js (6023:259)
+renderSection
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/src_55482348._.js (216:226)
+PateintV2
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-next/.next/static/chunks/src_55482348._.js (468:35)
+ClientPageRoot
+file:///home/promatics/Desktop/Baltej/tailwind_projects/Med%20tech/human-"?
+
+answer:
+
+====================================================================================================
+
+
+type Readonly<T> = { readonly [P in keyof T]: T[P]; }, explain 
+
+
+====================================================================================================
+
+import { useQuery } from "@tanstack/react-query";
+
+function useUser() {
+  return useQuery({
+    queryKey: ["user"], // unique cache key
+    queryFn: async () => {
+      const res = await fetch("/api/user");
+      return res.json();
+    },
+  });
+}
+
+function Profile() {
+  const { data, isLoading } = useUser();
+
+  if (isLoading) return <p>Loading...</p>;
+  return <h1>{data.name}</h1>;
+}
+
+function Sidebar() {
+  const { data } = useUser();
+  return <p>Logged in as {data?.name}</p>;
+}
+
+====================================================================================================
+
+how are we assigning an onClick function to this button here 
+
+<ButtonV2 variant="primary">  <div className="relative flex items-center space-x-3">
+                <span className="text-lg">New Prescription</span>
+                <div className="text-sm font-medium text-white">FP-10 CD</div>
+              </div></ButtonV2>
+
+
+'use client';
+import React from 'react';
+import clsx from 'clsx';
+
+type ButtonV2Props = {
+  variant?: 'primary' | 'danger' | 'success' | 'default' | 'primaryOutline';
+  size?: 'small' | 'default';
+  className?: string;
+  children: React.ReactNode;
+  disabled?: boolean;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+export default function ButtonV2({
+  variant = 'default',
+  size = 'default',
+  className,
+  children,
+  disabled = false,
+  type="button",
+  ...props
+}: ButtonV2Props) {
+  const variantStyles = {
+    default: 'bg-gray-500  border border-gray-500 text-white',
+    primary: 'bg-purple-600 border border-purple-600 text-white hover:bg-purple-700',
+    danger: 'bg-red-600 border border-red-600 text-white hover:bg-red-700',
+    success: 'bg-emerald-600 border border-emerald-600 text-white hover:bg-emberald-700',
+    primaryOutline: 'bg-white border border-purple-700 text-primaryNew hover:bg-primaryBorder'
+  };
+
+  return (
+    <button
+    type={type}
+      className={`${clsx(variantStyles[variant], className)}     
+      px-6  rounded-2xl font-bold w-full transition-all duration-200 whitespace-nowrap 
+  ${disabled ? 'cursor-not-allowed opacity-50 !bg-gray-500 !text-white' : 'cursor-pointer'} 
+  ${size === 'small' ? "!w-fit py-1.5 text-xs" : 'py-3 text-sm'}`}
+      {...props}
+      disabled={disabled}    >
+      {children}
+    </button>
+  );
+}
+
+====================================================================================================
+
+
+
+
+
+
+
+
 

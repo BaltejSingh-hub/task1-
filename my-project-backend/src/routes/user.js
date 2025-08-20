@@ -8,7 +8,9 @@ const userRouter=express.Router()
 const controller=require("../controller/userController")
 const {Products, Product_details} = require('../controller/productController');
 const UserMiddleware = require('../middleware/middleware');
-
+const { EditProfile, EditProfilePic } = require('../controller/UserProfilePic');
+const { UserDetails } = require('../controller/userDetails');
+const { Edit_Username_Email } = require('../controller/Edit_Username_Email');
 
 
 //localhost:3001/welcome/signup
@@ -33,6 +35,15 @@ userRouter.get("/productdetails",Products)
 
 // localhost:3001/welcome/deleteProfile
 userRouter.delete("/deleteProfile",UserMiddleware,controller.DeleteProfile)
+
+// localhost:3001/welcome/user_details
+userRouter.get("/user_details",UserMiddleware,UserDetails)
+
+// localhost:3001/welcome/editProfilePic
+userRouter.post("/editProfilePic",UserMiddleware,EditProfilePic)
+
+// localhost:3001/welcome/edit_username_email
+userRouter.post("/edit_username_email",UserMiddleware,Edit_Username_Email)
 
 module.exports={
     userRouter
